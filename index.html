@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>読み込み中...</title>
-<!-- 血文字風のホラーフォントを読み込み -->
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+<!-- 血文字系のホラーフォント（Creepster）を読み込み -->
+<link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 <style>
   * {
     margin: 0;
@@ -19,14 +19,12 @@
     overflow: hidden;
     position: relative;
   }
-  /* 1枚目（背景）の画像 */
   .bg-img {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
     display: block;
   }
-  /* 2枚目（ポップアップ）の画像 */
   .popup-img {
     display: none;
     position: absolute;
@@ -39,48 +37,50 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     z-index: 999;
   }
-  /* 血文字のカウントダウン */
+  
+  /* カウントダウン：真っ赤＆画面ド真ん中配置 */
   #countdown {
     position: absolute;
-    top: 5%; /* 画面上部 */
-    width: 100%;
-    text-align: center;
-    font-family: 'Nosifer', cursive; /* ホラーフォント指定 */
-    font-size: 80px;
-    color: #990000; /* 赤黒い血の色 */
-    text-shadow: 2px 2px 10px #000; /* 黒い影をつけて目立たせる */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 画面の完全な中央に配置 */
+    font-family: 'Creepster', cursive, sans-serif; /* ホラーフォント指定（失敗時はsans-serif） */
+    font-size: 150px; /* 文字を巨大化 */
+    color: #ff0000; /* 真っ赤 */
+    text-shadow: 
+      0 0 10px #ff0000, 
+      0 0 20px #8b0000, 
+      5px 5px 15px #000; /* 発光するような血の影 */
     z-index: 1000;
+    /* フォント読み込み完了まで一瞬非表示にする（チラつき防止） */
+    opacity: 0; 
+    animation: fadeIn 0.5s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
   }
 </style>
 </head>
 <body>
 
-  <!-- 血文字のカウントダウン表示 -->
   <div id="countdown">3</div>
-
-  <!-- 1枚目（背景画像） -->
   <img src="target.jpg" class="bg-img" alt="">
-
-  <!-- 2枚目（ポップアップ画像） -->
   <img src="target2.jpg" id="popup" class="popup-img" alt="">
 
   <script>
-    let timeLeft = 3; // カウントダウンの秒数（3秒）
+    let timeLeft = 3;
     const countElement = document.getElementById('countdown');
     const popupElement = document.getElementById('popup');
 
-    // 1秒（1000ミリ秒）ごとに処理を実行
     const timer = setInterval(() => {
       timeLeft--;
-      
       if (timeLeft > 0) {
-        // カウントを減らして画面を更新
         countElement.textContent = timeLeft;
       } else {
-        // 0になったときの処理
-        clearInterval(timer); // タイマー停止
-        countElement.style.display = 'none'; // カウントダウンの数字を消す
-        popupElement.style.display = 'block'; // ポップアップ画像を表示
+        clearInterval(timer);
+        countElement.style.display = 'none';
+        popupElement.style.display = 'block';
       }
     }, 1000);
   </script>
